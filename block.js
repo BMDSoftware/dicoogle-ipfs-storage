@@ -1,13 +1,13 @@
 var ipfsAPI = require('ipfs-api')
 
 // connect to ipfs daemon API server
-var ipfs = ipfsAPI('localhost', '5001', {protocol: 'http'}) // leaving out the arguments will default to these values
+//var ipfs = ipfsAPI('localhost', '5001', {protocol: 'http'}) // leaving out the arguments will default to these values
 
 // or connect with multiaddr
 var ipfs = ipfsAPI('/ip4/127.0.0.1/tcp/5002')
 
 // or using options
-//var ipfs = ipfsAPI({host: 'localhost', port: '5002', protocol: 'http'})
+var ipfs = ipfsAPI({host: 'localhost', port: '5002', protocol: 'http'})
 
 // or specifying a specific API path
 //var ipfs = ipfsAPI({host: '1.1.1.1', port: '80', 'api-path': '/ipfs/api/v0'})
@@ -21,3 +21,18 @@ ipfs.files.get(validCID, function (err, files) {
     console.log(file.content.toString('utf8'))
   })
 })
+
+
+/*
+ipfs.files.write('/hello-world', Buffer.from('Hello, world!'), (err) => {
+  console.log(err)
+})
+
+
+ipfs.files.ls('/screen', function (err, files) {
+  files.forEach((file) => {
+    console.log(file.name)
+  })
+})
+
+*/

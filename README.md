@@ -17,23 +17,31 @@ Getting Started
 
 ### Run IPFS Daemon 
 
-$ npm install ipfs --global
 
-$ jsipfs init 
+$ ./ipfs init
 
-````
+$ ./ipfs daemon
 
- => jsipfs daemon
+
+```
 Initializing daemon...
-Swarm listening on /ip4/127.0.0.1/tcp/4003/ws/ipfs/QmTy4XKvPdPzsTQHdCeZNhQyKAPQbXdg1kbXU1kjEiJeuJ
-Swarm listening on /ip4/127.0.0.1/tcp/4002/ipfs/QmTy4XKvPdPzsTQHdCeZNhQyKAPQbXdg1kbXU1kjEiJeuJ
-Swarm listening on /ip4/192.168.1.72/tcp/4002/ipfs/QmTy4XKvPdPzsTQHdCeZNhQyKAPQbXdg1kbXU1kjEiJeuJ
-Swarm listening on /ip4/172.20.20.25/tcp/4002/ipfs/QmTy4XKvPdPzsTQHdCeZNhQyKAPQbXdg1kbXU1kjEiJeuJ
-Swarm listening on /ip4/169.254.195.127/tcp/4002/ipfs/QmTy4XKvPdPzsTQHdCeZNhQyKAPQbXdg1kbXU1kjEiJeuJ
-API is listening on: /ip4/127.0.0.1/tcp/5002
-Gateway (readonly) is listening on: /ip4/127.0.0.1/tcp/9090
+Swarm listening on /ip4/127.0.0.1/tcp/4001
+Swarm listening on /ip4/169.254.195.127/tcp/4001
+Swarm listening on /ip4/172.20.20.25/tcp/4001
+Swarm listening on /ip4/192.168.1.72/tcp/4001
+Swarm listening on /ip6/::1/tcp/4001
+Swarm listening on /p2p-circuit/ipfs/QmPYwyhd9WfH6cmyXh4SJpSkxweeHmUbohao6g4H4zhD3G
+Swarm announcing /ip4/127.0.0.1/tcp/4001
+Swarm announcing /ip4/169.254.195.127/tcp/4001
+Swarm announcing /ip4/172.20.20.25/tcp/4001
+Swarm announcing /ip4/192.168.1.72/tcp/4001
+Swarm announcing /ip4/2.83.194.251/tcp/60663
+Swarm announcing /ip6/::1/tcp/4001
+API server listening on /ip4/127.0.0.1/tcp/5001
+Gateway (readonly) server listening on /ip4/127.0.0.1/tcp/8080
 Daemon is ready
-````
+``` 
+
 
 ### Downloading and building the plugin
 
