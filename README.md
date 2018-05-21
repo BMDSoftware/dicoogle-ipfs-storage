@@ -14,6 +14,27 @@ Getting Started
 4. Run Dicoogle with: sh Dicoogle.sh (OSX / Linux) or Dicoogle.bat (Windows).
 5. You should see your web browser opening the Dicoogle user interface. Is it running? You're ok!
 
+
+### Run IPFS Daemon 
+
+$ npm install ipfs --global
+
+$ jsipfs init 
+
+````
+
+ => jsipfs daemon
+Initializing daemon...
+Swarm listening on /ip4/127.0.0.1/tcp/4003/ws/ipfs/QmTy4XKvPdPzsTQHdCeZNhQyKAPQbXdg1kbXU1kjEiJeuJ
+Swarm listening on /ip4/127.0.0.1/tcp/4002/ipfs/QmTy4XKvPdPzsTQHdCeZNhQyKAPQbXdg1kbXU1kjEiJeuJ
+Swarm listening on /ip4/192.168.1.72/tcp/4002/ipfs/QmTy4XKvPdPzsTQHdCeZNhQyKAPQbXdg1kbXU1kjEiJeuJ
+Swarm listening on /ip4/172.20.20.25/tcp/4002/ipfs/QmTy4XKvPdPzsTQHdCeZNhQyKAPQbXdg1kbXU1kjEiJeuJ
+Swarm listening on /ip4/169.254.195.127/tcp/4002/ipfs/QmTy4XKvPdPzsTQHdCeZNhQyKAPQbXdg1kbXU1kjEiJeuJ
+API is listening on: /ip4/127.0.0.1/tcp/5002
+Gateway (readonly) is listening on: /ip4/127.0.0.1/tcp/9090
+Daemon is ready
+````
+
 ### Downloading and building the plugin
 
 Maven is required in order to build the project. An IDE with Maven support such as Netbeans may also help.
