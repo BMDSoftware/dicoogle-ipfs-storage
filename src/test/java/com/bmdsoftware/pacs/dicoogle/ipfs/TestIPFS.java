@@ -19,6 +19,8 @@ public class TestIPFS {
 
 
         IPFS ipfs = new IPFS("/ip4/127.0.0.1/tcp/5001");
+        //IPFS ipfs = new IPFS("/ip4/104.236.179.241/tcp/4001");
+
 
 //        ipfs.refs.local();
         ClassLoader classLoader = getClass().getClassLoader();
@@ -51,7 +53,8 @@ public class TestIPFS {
 
 //        System.out.println(ipfs.stats.bw().size());
 
-        Multihash filePointer = Multihash.fromBase58(addResult.hash.toBase58());
+        //Multihash filePointer = Multihash.fromBase58(addResult.hash.toBase58());
+        Multihash filePointer = Multihash.fromBase58("QmdWFrmDRZmAG8kMX5UG2RmEWpNbUkppeuiLcvNTBnU8df");
         System.out.println(filePointer.type.length);
 
 
