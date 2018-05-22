@@ -46,7 +46,7 @@ public class TestIPFS {
         System.out.println("File name: " + file.getName().get());
         MerkleNode addResult = ipfs.add(file).get(0);
         System.out.println("File hash " +addResult.hash);
-//        System.out.println("File size " +addResult.size.get());
+        System.out.println("File size " +addResult.size.get());
         System.out.println("File size " +addResult.toJSON());
 
         //NamedStreamable.ByteArrayWrapper file2 = new NamedStreamable.ByteArrayWrapper("hello.txt", "G'day world! IPFS rocks!".getBytes());

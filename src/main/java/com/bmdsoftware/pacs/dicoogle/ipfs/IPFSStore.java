@@ -150,16 +150,15 @@ public class IPFSStore implements StorageInterface {
 
     @Override
     public void remove(URI uri) {
-
         // TODO: not supported at IPFS. What should we do?
-
+        logger.error("Operation not supported for "+uri.toString());
     }
 
     @Override
     public String getName() {
         return "ipfs-storage";
     }
-    
+
     @Override
     public boolean enable() {
         this.enabled = true;

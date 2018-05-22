@@ -6,14 +6,11 @@ This is a Dicoogle plugin to support the storage of files over IPFS.
 Getting Started
 ---------------
 
-### Installing and running Dicoogle
-
-1. Go to http://www.dicoogle.com/?page_id=67
-2. Download version 2 (or later) of Dicoogle
-3. Extract your contents to its own directory (e.g. "~/dicoogle" or "C:\dicoogle", depending on the platform).
-4. Run Dicoogle with: sh Dicoogle.sh (OSX / Linux) or Dicoogle.bat (Windows).
-5. You should see your web browser opening the Dicoogle user interface. Is it running? You're ok!
-
+IPFS is a P2P distributed file system that targets to connect all computing devices with 
+the same system of files. IPFS provides a high-throughput, content-addressed block storage model, with 
+addressed with a hash URI. Dicoogle IPFS is as far as we know, the first PACS archive supporting DICOM communications
+with IPFS capabilities.
+  
 
 ### Run IPFS Daemon 
 
@@ -42,23 +39,14 @@ Gateway (readonly) server listening on /ip4/127.0.0.1/tcp/8080
 Daemon is ready
 ``` 
 
+### Installing and running with Dicoogle
 
-### Downloading and building the plugin
-
-Maven is required in order to build the project. An IDE with Maven support such as Netbeans may also help.
-
-1. Clone the git repository at https://github.com/bioinformatics-ua/dicooglePluginSample.git
-
-2. Go to the project's base directory in a command line and run `mvn install`. Alternatively, open
-   the Maven project of the plugin with your IDE, then force it to build your project.
-
-3. If the building task is successful, you will have a new jar with dependencies in the target
-   folder (target/dicoogle-plugin-sample-2.0-jar-with-dependencies.jar).
+To be done 
 
 
 ### Using your plugin
 
-1. Copy your plugin's package with dependencies (target/dicoogle-plugin-sample-2.0-jar-with-dependencies.jar)
+1. Copy your plugin's package with dependencies (target/ipfs-plugin-1.0.0-SNAPSHOT-jar-with-dependencies.jar)
    to the "Plugins" folder inside the root folder of Dicoogle.
 
 2. Run Dicoogle. The plugin will be automatically included.
