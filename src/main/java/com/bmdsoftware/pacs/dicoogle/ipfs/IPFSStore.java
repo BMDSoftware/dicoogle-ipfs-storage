@@ -31,9 +31,17 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 
+/**
+ * @author Luís A. Bastião Silva - <bastiao@bmd-software.com>
+ */
 public class IPFSStore implements StorageInterface {
 
     private IPFS ipfs = null;
+
+
+    public IPFSStore(IPFS ipfs){
+        this.ipfs = ipfs;
+    }
 
     @Override
     public String getScheme() {

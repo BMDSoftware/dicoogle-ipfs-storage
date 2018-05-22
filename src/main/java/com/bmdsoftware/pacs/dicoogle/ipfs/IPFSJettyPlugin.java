@@ -31,7 +31,7 @@ import pt.ua.dicoogle.sdk.settings.ConfigurationHolder;
 
 /** Example of a Jetty Servlet plugin.
  *
- * @author Luís A. Bastião Silva - <bastiao@ua.pt>
+ * @author Luís A. Bastião Silva - <bastiao@bmd-software.com>
  */
 public class IPFSJettyPlugin implements JettyPluginInterface, PlatformCommunicatorInterface {
     private static final Logger logger = LoggerFactory.getLogger(IPFSJettyPlugin.class);

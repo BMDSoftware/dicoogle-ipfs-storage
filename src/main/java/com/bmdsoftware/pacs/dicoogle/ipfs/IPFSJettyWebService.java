@@ -35,7 +35,7 @@ import pt.ua.dicoogle.sdk.task.Task;
 
 /** Sample Jetty servlet-based web service.
  *
- * @author Luís A. Bastião Silva - <bastiao@ua.pt>
+ * @author Luís A. Bastião Silva - <bastiao@bmd-software.com>
  */
 public class IPFSJettyWebService extends HttpServlet implements PlatformCommunicatorInterface {
     private static final Logger logger = LoggerFactory.getLogger(IPFSJettyWebService.class);

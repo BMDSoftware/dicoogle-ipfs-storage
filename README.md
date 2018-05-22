@@ -70,6 +70,13 @@ Web service plugin :
 To test the webservice plugin, you may open your browser and navigate to these URLs:
 
 
+### Use case
+
+1) Store medical imaging over IPFS
+2) Failures
+3) Avoid changes in medical imaging 
+4) Allow tracebility 
+
 Platforms
 ----------
 
