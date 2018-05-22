@@ -72,7 +72,7 @@ public class IPFSPluginSet implements PluginSet {
         logger.info("IPFS connecting to .. "+ endpoint);
         IPFS ipfs = new IPFS(endpoint);
 
-        this.storage = new IPFSStore();
+        this.storage = new IPFSStore(ipfs);
 
         logger.info("IPFS Plugin Set is ready");
     }
