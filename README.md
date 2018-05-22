@@ -6,19 +6,25 @@ This is a Dicoogle plugin to support the storage of files over IPFS.
 Getting Started
 ---------------
 
-IPFS is a P2P distributed file system that targets to connect all computing devices with 
+[IPFS](https://ipfs.io/) is a P2P distributed file system that targets to connect all computing devices with 
 the same system of files. IPFS provides a high-throughput, content-addressed block storage model, with 
-addressed with a hash URI. Dicoogle IPFS is as far as we know, the first PACS archive supporting DICOM communications
+addressed with a hash URI. Dicoogle IPFS is as far as we know, the first PACS archive supporting [DICOM](https://www.dicomstandard.org/) communications
 with IPFS capabilities.
   
 
 ### Run IPFS Daemon 
 
 
-$ ./ipfs init
+1. First, go to and download the IPFS. You can use Go IPFS Daemon. 
+2. Run init to create the hash files and keys with:
 
-$ ./ipfs daemon
+    $ ./ipfs init
 
+3. Start the daemon: 
+
+    $ ./ipfs daemon
+
+It should retrieve something similar: 
 
 ```
 Initializing daemon...
@@ -48,6 +54,21 @@ Daemon is ready
 2. Run Dicoogle. The plugin will be automatically included.
 
 
+### Configuration 
+
+You can configure the IPFS endpoint in the Plugin settings. Check here: 
+    
+
+```
+| => cat Plugins/settings/IPFS.xml
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<configuration>
+    <ipfs>
+        <endpoint>/ip4/127.0.0.1/tcp/5001</endpoint>
+    </ipfs>
+</configuration>
+```
+
 
 ### Use case
 
@@ -58,6 +79,7 @@ Daemon is ready
 
 
 ## Support and consulting
+
 [<img src="https://raw.githubusercontent.com/wiki/BMDSoftware/dicoogle/images/bmd.png" height="64" alt="BMD Software">](https://www.bmd-software.com)
 
 Please contact [BMD Software](https://www.bmd-software.com) for professional support and consulting services.

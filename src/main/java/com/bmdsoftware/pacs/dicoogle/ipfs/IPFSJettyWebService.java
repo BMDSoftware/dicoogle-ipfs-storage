@@ -26,6 +26,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import io.ipfs.api.IPFS;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ua.dicoogle.sdk.core.DicooglePlatformInterface;
@@ -33,54 +35,41 @@ import pt.ua.dicoogle.sdk.core.PlatformCommunicatorInterface;
 import pt.ua.dicoogle.sdk.datastructs.SearchResult;
 import pt.ua.dicoogle.sdk.task.Task;
 
-/** Sample Jetty servlet-based web service.
+/** IPFS Jetty Plugin - Status
  *
  * @author Luís A. Bastião Silva - <bastiao@bmd-software.com>
+ * @author Eriksson Monteiro - <eriksson.monteiro@bmd-software.com>
  */
 public class IPFSJettyWebService extends HttpServlet implements PlatformCommunicatorInterface {
     private static final Logger logger = LoggerFactory.getLogger(IPFSJettyWebService.class);
     
     private DicooglePlatformInterface platform;
+    private IPFS ipfs = null;
 
-    public IPFSJettyWebService() {
+    public IPFSJettyWebService(IPFS ipfs) {
+        this.ipfs = ipfs;
     }
     
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse response)
                     throws ServletException, IOException {
 
-        String SOPInstanceUID = req.getParameter("uid");
-        if (SOPInstanceUID == null) {
-                response.sendError(402, "No UID");
+        String action = req.getParameter("action");
+        if (action == null) {
+                response.sendError(402, "No action provided");
                 return;
         }
-        HashMap<String, String> extraFields = new HashMap<>();
-        //attaches the required extrafields
 
-        extraFields.put("PatientName", "PatientName");
-        extraFields.put("PatientID", "PatientID");
-        extraFields.put("Modality", "Modality");
-        extraFields.put("StudyDate", "StudyDate");
-        extraFields.put("SeriesInstanceUID", "SeriesInstanceUID");
-        extraFields.put("StudyID", "StudyID");
-        extraFields.put("StudyInstanceUID", "StudyInstanceUID");
-        extraFields.put("Thumbnail", "Thumbnail");
-        extraFields.put("SOPInstanceUID", "SOPInstanceUID");
-
-        // Kind of filtering: 
-        //Task<Iterable<SearchResult>> result = IPFSPluginSet.coreDicoogle.query("lucene", "StudyInstanceUID:234567", extraFields);
-        // Return all: 
-        Task<Iterable<SearchResult>> result = this.platform.query("lucene", "*:*", extraFields);
-        try {
-            Iterable<SearchResult> rr = result.get();
-                    
-        } catch (InterruptedException | ExecutionException ex) {
-            logger.warn("Operation failed", ex);
-        }
-        
         response.setContentType("text/json;charset=utf-8");
         PrintWriter out=response.getWriter();
-        out.print("{\"action\":\"test\"}");
+        if (action.equals("status")){
+            out.print("{\"action\":\"status\", \"status\":\""+ipfs.stats.toString()+"\", }");
+        }
+        else{
+            out.print("{\"action\":\"no action provided\"}");
+        }
+
+
     }
 
     @Override

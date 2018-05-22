@@ -40,6 +40,7 @@ import pt.ua.dicoogle.sdk.settings.ConfigurationHolder;
  * This is the entry point for all plugins.
  *
  * @author Luís A. Bastião Silva - <bastiao@bmd-software.com>
+ * @author Eriksson Monteiro - <eriksson.monteiro@bmd-software.com>
  */
 @PluginImplementation
 public class IPFSPluginSet implements PluginSet {
@@ -50,27 +51,21 @@ public class IPFSPluginSet implements PluginSet {
 
     private final IPFSJettyPlugin jettyWeb;
     private final IPFSStore storage;
-
+    private String endpoint = "/ip4/127.0.0.1/tcp/5001";
     private ConfigurationHolder settings;
 
     public IPFSPluginSet() throws IOException {
         logger.info("Initializing IPFS Plugin Set");
 
         // construct all plugins here
-        this.jettyWeb = new IPFSJettyPlugin();
 
-        String endpoint = "/ip4/127.0.0.1/tcp/5001";
-        XMLConfiguration conf = this.settings.getConfiguration();
-        try {
-            // required field, will throw if missing
-            endpoint = conf.getString("endpoint");
-        } catch (RuntimeException ex) {
-            logger.warn("Failed to configure plugin: required fields are missing!", ex);
-        }
+
+
 
 
         logger.info("IPFS connecting to .. "+ endpoint);
         IPFS ipfs = new IPFS(endpoint);
+        this.jettyWeb = new IPFSJettyPlugin(ipfs);
 
         this.storage = new IPFSStore(ipfs);
 
@@ -120,6 +115,20 @@ public class IPFSPluginSet implements PluginSet {
     @Override
     public void setSettings(ConfigurationHolder xmlSettings) {
         this.settings = xmlSettings;
+        XMLConfiguration cnf = this.settings.getConfiguration();
+
+        cnf.setThrowExceptionOnMissing(true);
+        XMLConfiguration conf = this.settings.getConfiguration();
+        try {
+            // required field, will throw if missing
+            endpoint = conf.getString("ipfs.endpoint");
+
+        } catch (Exception ex) {
+            conf.setProperty("ipfs.endpoint",endpoint);
+            endpoint = "/ip4/127.0.0.1/tcp/5001";
+            logger.warn("Failed to configure plugin: required fields are missing!", ex);
+        }
+
     }
 
     @Override

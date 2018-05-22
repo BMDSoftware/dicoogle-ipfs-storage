@@ -18,6 +18,7 @@
  */
 package com.bmdsoftware.pacs.dicoogle.ipfs;
 
+import io.ipfs.api.IPFS;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -29,9 +30,10 @@ import pt.ua.dicoogle.sdk.core.DicooglePlatformInterface;
 import pt.ua.dicoogle.sdk.core.PlatformCommunicatorInterface;
 import pt.ua.dicoogle.sdk.settings.ConfigurationHolder;
 
-/** Example of a Jetty Servlet plugin.
+/** IPFS Jetty Servlet plugin.
  *
  * @author Luís A. Bastião Silva - <bastiao@bmd-software.com>
+ * @author Eriksson Monteiro - <eriksson.monteiro@bmd-software.com>
  */
 public class IPFSJettyPlugin implements JettyPluginInterface, PlatformCommunicatorInterface {
     private static final Logger logger = LoggerFactory.getLogger(IPFSJettyPlugin.class);
@@ -40,9 +42,11 @@ public class IPFSJettyPlugin implements JettyPluginInterface, PlatformCommunicat
     private ConfigurationHolder settings;
     private DicooglePlatformInterface platform;
     private final IPFSJettyWebService webService;
+    private IPFS ipfs;
     
-    public IPFSJettyPlugin() {
-        this.webService = new IPFSJettyWebService();
+    public IPFSJettyPlugin(IPFS ipfs) {
+        this.ipfs = ipfs;
+        this.webService = new IPFSJettyWebService(ipfs);
         this.enabled = true;
     }
 
