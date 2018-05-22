@@ -77,6 +77,14 @@ To test the webservice plugin, you may open your browser and navigate to these U
 3) Avoid changes in medical imaging 
 4) Allow tracebility 
 
+
+## Support and consulting
+[<img src="https://raw.githubusercontent.com/wiki/BMDSoftware/dicoogle/images/bmd.png" height="64" alt="BMD Software">](https://www.bmd-software.com)
+
+Please contact [BMD Software](https://www.bmd-software.com) for professional support and consulting services.
+
+
+
 Platforms
 ----------
 
