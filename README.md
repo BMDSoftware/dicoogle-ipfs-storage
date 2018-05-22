@@ -39,10 +39,6 @@ Gateway (readonly) server listening on /ip4/127.0.0.1/tcp/8080
 Daemon is ready
 ``` 
 
-### Installing and running with Dicoogle
-
-To be done 
-
 
 ### Using your plugin
 
@@ -51,11 +47,6 @@ To be done
 
 2. Run Dicoogle. The plugin will be automatically included.
 
-
-Web service plugin : 
---------------------------------------
-
-To test the webservice plugin, you may open your browser and navigate to these URLs:
 
 
 ### Use case
