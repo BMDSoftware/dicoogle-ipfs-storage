@@ -63,9 +63,11 @@ public class IPFSJettyWebService extends HttpServlet implements PlatformCommunic
         response.setContentType("text/json;charset=utf-8");
         PrintWriter out=response.getWriter();
         if (action.equals("status")){
-            out.print("{\"action\":\"status\", \"status\":\""+ipfs.stats.toString()+"\", }");
+            response.setStatus(200);
+            out.print("{\"action\":\"status\", \"host\":\""+ipfs.host+"\",  \"status\":"+ipfs.stats.bw().toString()+"\"}");
         }
         else{
+            response.setStatus(200);
             out.print("{\"action\":\"no action provided\"}");
         }
 

@@ -69,13 +69,28 @@ You can configure the IPFS endpoint in the Plugin settings. Check here:
 </configuration>
 ```
 
+### Check the current status
 
-### Use case
+
+Status Web service available at: ipfs/status?action=status
+    
+    URL: http://localhost:8082/ipfs/status?action=status 
+
+
+### Troubleshooting 
+
+By default Dicoogle and IPFS Daemon open the 8080 tcp port, so one of application should change the port to avoid 
+problems.
+
+
+## Use case
 
 1) Store medical imaging over IPFS
 2) Failures
 3) Avoid changes in medical imaging 
 4) Allow tracebility 
+
+
 
 
 ## Support and consulting
