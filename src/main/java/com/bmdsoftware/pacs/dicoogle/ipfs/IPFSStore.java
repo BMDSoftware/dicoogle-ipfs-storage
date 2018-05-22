@@ -21,6 +21,7 @@ package com.bmdsoftware.pacs.dicoogle.ipfs;
 import io.ipfs.api.IPFS;
 import io.ipfs.api.MerkleNode;
 import io.ipfs.api.NamedStreamable;
+import io.ipfs.multihash.Multihash;
 import org.dcm4che2.data.DicomObject;
 import org.dcm4che2.io.DicomInputStream;
 import org.dcm4che2.io.DicomOutputStream;
@@ -30,11 +31,10 @@ import pt.ua.dicoogle.sdk.StorageInputStream;
 import pt.ua.dicoogle.sdk.StorageInterface;
 import pt.ua.dicoogle.sdk.settings.ConfigurationHolder;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.URI;
-import java.util.UUID;
+import java.net.URISyntaxException;
+import java.util.*;
 
 /**
  * @author Luís A. Bastião Silva - <bastiao@bmd-software.com>
@@ -64,8 +64,50 @@ public class IPFSStore implements StorageInterface {
     }
 
     @Override
-    public Iterable<StorageInputStream> at(URI uri, Object... objects) {
-        return null;
+    public Iterable<StorageInputStream> at(final URI location, Object... objects) {
+
+
+
+        Iterable<StorageInputStream> c = new Iterable<StorageInputStream>() {
+
+            @Override
+            public Iterator<StorageInputStream> iterator() {
+                Collection c2 = new ArrayList<>();
+                StorageInputStream s = new StorageInputStream() {
+
+                    @Override
+                    public URI getURI() {
+                        return location;
+                    }
+
+                    @Override
+                    public InputStream getInputStream() throws IOException {
+                        Multihash filePointer = Multihash.fromBase58(location.toString().replaceFirst("ipfs://", ""));
+
+                        byte[] fileContents = new byte[0];
+                        try {
+                            fileContents = ipfs.get(filePointer);
+                        } catch (IOException e) {
+                            logger.error("Failed to retrieve object", e);
+                            return null;
+                        }
+
+                        ByteArrayInputStream bin = new ByteArrayInputStream(fileContents);
+                        return bin;
+                    }
+
+                    @Override
+                    public long getSize() throws IOException {
+                        Multihash filePointer = Multihash.fromBase58(location.toString().replaceFirst("ipfs://", ""));
+                        return ipfs.get(filePointer).length;
+                    }
+                };
+                c2.add(s);
+                return c2.iterator();
+            }
+        };
+        return c;
+
     }
 
     @Override
@@ -76,18 +118,26 @@ public class IPFSStore implements StorageInterface {
         try {
             dos.writeDicomFile(dicomObject);
         } catch (IOException ex) {
-            logger.warn("Failed to store object", ex);
+            logger.error("Failed to store object", ex);
         }
 
 
         NamedStreamable.ByteArrayWrapper file = new NamedStreamable.ByteArrayWrapper(UUID.randomUUID().toString(), bos.toByteArray());
+        MerkleNode addResult = null;
         try {
-            MerkleNode addResult = ipfs.add(file).get(0);
+            addResult = ipfs.add(file).get(0);
         } catch (IOException e) {
             logger.error("Failed to store object", e);
+            return null;
         }
 
-        return null;
+        // Retrieve the hash
+        try {
+            return new URI("ipfs://"+addResult.hash.toBase58());
+        } catch (URISyntaxException e) {
+            logger.error("Failed to build uri ", e);
+            return null;
+        }
     }
 
     @Override
@@ -100,26 +150,28 @@ public class IPFSStore implements StorageInterface {
     @Override
     public void remove(URI uri) {
 
+        // TODO: not supported at IPFS. What should we do?
+
     }
 
     @Override
     public String getName() {
-        return null;
+        return "ipfs-storage";
     }
 
     @Override
     public boolean enable() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean disable() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 
     @Override
