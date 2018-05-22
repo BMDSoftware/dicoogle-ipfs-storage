@@ -23,18 +23,26 @@ import io.ipfs.api.MerkleNode;
 import io.ipfs.api.NamedStreamable;
 import org.dcm4che2.data.DicomObject;
 import org.dcm4che2.io.DicomInputStream;
+import org.dcm4che2.io.DicomOutputStream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pt.ua.dicoogle.sdk.StorageInputStream;
 import pt.ua.dicoogle.sdk.StorageInterface;
 import pt.ua.dicoogle.sdk.settings.ConfigurationHolder;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.util.UUID;
 
 /**
  * @author Luís A. Bastião Silva - <bastiao@bmd-software.com>
  */
 public class IPFSStore implements StorageInterface {
+
+    private static final Logger logger = LoggerFactory.getLogger(IPFSStore.class);
+
 
     private IPFS ipfs = null;
 
@@ -55,7 +63,6 @@ public class IPFSStore implements StorageInterface {
         return false;
     }
 
-
     @Override
     public Iterable<StorageInputStream> at(URI uri, Object... objects) {
         return null;
@@ -63,17 +70,31 @@ public class IPFSStore implements StorageInterface {
 
     @Override
     public URI store(DicomObject dicomObject, Object... objects) {
+
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        DicomOutputStream dos = new DicomOutputStream(bos);
+        try {
+            dos.writeDicomFile(dicomObject);
+        } catch (IOException ex) {
+            logger.warn("Failed to store object", ex);
+        }
+
+
+        NamedStreamable.ByteArrayWrapper file = new NamedStreamable.ByteArrayWrapper(UUID.randomUUID().toString(), bos.toByteArray());
+        try {
+            MerkleNode addResult = ipfs.add(file).get(0);
+        } catch (IOException e) {
+            logger.error("Failed to store object", e);
+        }
+
         return null;
     }
 
     @Override
     public URI store(DicomInputStream dicomInputStream, Object... objects) throws IOException {
-        //
 
-        NamedStreamable.FileWrapper file = new NamedStreamable.FileWrapper(new File("hello.txt"));
-        MerkleNode addResult = ipfs.add(file).get(0);
-
-        return null;
+        DicomObject obj = dicomInputStream.readDicomObject();
+        return store(obj);
     }
 
     @Override
