@@ -43,6 +43,7 @@ public class IPFSStore implements StorageInterface {
 
     private static final Logger logger = LoggerFactory.getLogger(IPFSStore.class);
 
+    private boolean enabled = true;
 
     private IPFS ipfs = null;
 
@@ -158,20 +159,22 @@ public class IPFSStore implements StorageInterface {
     public String getName() {
         return "ipfs-storage";
     }
-
+    
     @Override
     public boolean enable() {
+        this.enabled = true;
         return true;
     }
 
     @Override
     public boolean disable() {
+        this.enabled = false;
         return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return this.enabled;
     }
 
     @Override
