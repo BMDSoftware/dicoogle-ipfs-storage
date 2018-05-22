@@ -8,6 +8,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.*;
+import java.util.List;
 
 public class TestIPFS {
 
@@ -44,7 +45,7 @@ public class TestIPFS {
         NamedStreamable.FileWrapper file = new NamedStreamable.FileWrapper(fileTmp);
         System.out.println("File name: " + file.getName().get());
         MerkleNode addResult = ipfs.add(file).get(0);
-        System.out.println("File hash " +addResult.hash.toBase58());
+        System.out.println("File hash " +addResult.hash);
 //        System.out.println("File size " +addResult.size.get());
         System.out.println("File size " +addResult.toJSON());
 
@@ -53,14 +54,17 @@ public class TestIPFS {
 
 //        System.out.println(ipfs.stats.bw().size());
 
-        //Multihash filePointer = Multihash.fromBase58(addResult.hash.toBase58());
-        Multihash filePointer = Multihash.fromBase58("QmdWFrmDRZmAG8kMX5UG2RmEWpNbUkppeuiLcvNTBnU8df");
+        Multihash filePointer = Multihash.fromBase58(addResult.hash.toBase58());
+        //Multihash filePointer = Multihash.fromBase58("QmdWFrmDRZmAG8kMX5UG2RmEWpNbUkppeuiLcvNTBnU8df");
         System.out.println(filePointer.type.length);
 
 
 
-        byte[] fileContents = ipfs.get(filePointer);
+
+        byte[] fileContents = ipfs.cat(filePointer);
         System.out.println(new String(fileContents));
+        List<MerkleNode> addResult3 = ipfs.ls(filePointer);
+
 
     }
 
