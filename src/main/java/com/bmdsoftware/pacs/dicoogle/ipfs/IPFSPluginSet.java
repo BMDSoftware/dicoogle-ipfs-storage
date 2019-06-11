@@ -122,7 +122,7 @@ public class IPFSPluginSet implements PluginSet {
             endpoint = cnf.getString("ipfs.endpoint", "/ip4/127.0.0.1/tcp/5001");
 
             if (!cnf.containsKey("ipfs.endpoint")) {
-                cnf.setProperty("email-to-check", "/ip4/127.0.0.1/tcp/5001");
+                cnf.setProperty("ipfs.endpoint", "/ip4/127.0.0.1/tcp/5001");
             }
         } catch (Exception ex) {
             logger.warn("Failed to configure plugin: required fields are missing!", ex);
