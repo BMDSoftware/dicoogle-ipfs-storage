@@ -36,7 +36,7 @@ import pt.ua.dicoogle.sdk.StorageInterface;
 import pt.ua.dicoogle.sdk.settings.ConfigurationHolder;
 
 /** The main plugin set.
- * 
+ *
  * This is the entry point for all plugins.
  *
  * @author Luís A. Bastião Silva - <bastiao@bmd-software.com>
@@ -116,19 +116,17 @@ public class IPFSPluginSet implements PluginSet {
     public void setSettings(ConfigurationHolder xmlSettings) {
         this.settings = xmlSettings;
         XMLConfiguration cnf = this.settings.getConfiguration();
-
         cnf.setThrowExceptionOnMissing(true);
-        XMLConfiguration conf = this.settings.getConfiguration();
-        try {
-            // required field, will throw if missing
-            endpoint = conf.getString("ipfs.endpoint");
 
+        try {
+            endpoint = cnf.getString("ipfs.endpoint", "/ip4/127.0.0.1/tcp/5001");
+
+            if (!cnf.containsKey("ipfs.endpoint")) {
+                cnf.setProperty("email-to-check", "/ip4/127.0.0.1/tcp/5001");
+            }
         } catch (Exception ex) {
-            conf.setProperty("ipfs.endpoint",endpoint);
-            endpoint = "/ip4/127.0.0.1/tcp/5001";
             logger.warn("Failed to configure plugin: required fields are missing!", ex);
         }
-
     }
 
     @Override
