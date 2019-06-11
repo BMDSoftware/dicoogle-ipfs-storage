@@ -31,10 +31,16 @@ import pt.ua.dicoogle.sdk.StorageInputStream;
 import pt.ua.dicoogle.sdk.StorageInterface;
 import pt.ua.dicoogle.sdk.settings.ConfigurationHolder;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.UUID;
 
 /**
  * @author Luís A. Bastião Silva - <bastiao@bmd-software.com>
@@ -48,7 +54,7 @@ public class IPFSStore implements StorageInterface {
     private IPFS ipfs = null;
 
 
-    public IPFSStore(IPFS ipfs){
+    public IPFSStore(IPFS ipfs) {
         this.ipfs = ipfs;
     }
 
@@ -59,14 +65,11 @@ public class IPFSStore implements StorageInterface {
 
     @Override
     public boolean handles(URI location) {
-        if (location.toString().contains("ipfs://"))
-            return true;
-        return false;
+        return location.toString().contains("ipfs://");
     }
 
     @Override
     public Iterable<StorageInputStream> at(final URI location, Object... objects) {
-
 
 
         Iterable<StorageInputStream> c = new Iterable<StorageInputStream>() {
@@ -134,7 +137,7 @@ public class IPFSStore implements StorageInterface {
 
         // Retrieve the hash
         try {
-            return new URI("ipfs://"+addResult.hash.toBase58());
+            return new URI("ipfs://" + addResult.hash.toBase58());
         } catch (URISyntaxException e) {
             logger.error("Failed to build uri ", e);
             return null;
@@ -151,7 +154,7 @@ public class IPFSStore implements StorageInterface {
     @Override
     public void remove(URI uri) {
         // TODO: not supported at IPFS. What should we do?
-        logger.error("Operation not supported for "+uri.toString());
+        logger.error("Operation not supported for " + uri.toString());
     }
 
     @Override
@@ -177,12 +180,12 @@ public class IPFSStore implements StorageInterface {
     }
 
     @Override
-    public void setSettings(ConfigurationHolder configurationHolder) {
-
+    public ConfigurationHolder getSettings() {
+        return null;
     }
 
     @Override
-    public ConfigurationHolder getSettings() {
-        return null;
+    public void setSettings(ConfigurationHolder configurationHolder) {
+
     }
 }

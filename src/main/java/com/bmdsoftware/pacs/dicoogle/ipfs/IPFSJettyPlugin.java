@@ -24,26 +24,26 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import pt.ua.dicoogle.sdk.JettyPluginInterface;
 import pt.ua.dicoogle.sdk.core.DicooglePlatformInterface;
 import pt.ua.dicoogle.sdk.core.PlatformCommunicatorInterface;
 import pt.ua.dicoogle.sdk.settings.ConfigurationHolder;
 
-/** IPFS Jetty Servlet plugin.
+/**
+ * IPFS Jetty Servlet plugin.
  *
  * @author Luís A. Bastião Silva - <bastiao@bmd-software.com>
  * @author Eriksson Monteiro - <eriksson.monteiro@bmd-software.com>
  */
 public class IPFSJettyPlugin implements JettyPluginInterface, PlatformCommunicatorInterface {
     private static final Logger logger = LoggerFactory.getLogger(IPFSJettyPlugin.class);
-    
+
     private boolean enabled;
     private ConfigurationHolder settings;
     private DicooglePlatformInterface platform;
     private final IPFSJettyWebService webService;
     private IPFS ipfs;
-    
+
     public IPFSJettyPlugin(IPFS ipfs) {
         this.ipfs = ipfs;
         this.webService = new IPFSJettyWebService(ipfs);
@@ -59,7 +59,7 @@ public class IPFSJettyPlugin implements JettyPluginInterface, PlatformCommunicat
 
     @Override
     public String getName() {
-        return "RSI";
+        return "IPFS";
     }
 
     @Override

@@ -18,24 +18,21 @@
  */
 package com.bmdsoftware.pacs.dicoogle.ipfs;
 
-import java.io.IOException;
-import java.util.Collection;
-import java.util.Collections;
-
 import io.ipfs.api.IPFS;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.apache.commons.configuration.XMLConfiguration;
 import org.restlet.resource.ServerResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pt.ua.dicoogle.sdk.IndexerInterface;
-import pt.ua.dicoogle.sdk.JettyPluginInterface;
-import pt.ua.dicoogle.sdk.PluginSet;
-import pt.ua.dicoogle.sdk.QueryInterface;
-import pt.ua.dicoogle.sdk.StorageInterface;
+import pt.ua.dicoogle.sdk.*;
 import pt.ua.dicoogle.sdk.settings.ConfigurationHolder;
 
-/** The main plugin set.
+import java.io.IOException;
+import java.util.Collection;
+import java.util.Collections;
+
+/**
+ * The main plugin set.
  *
  * This is the entry point for all plugins.
  *
@@ -60,10 +57,7 @@ public class IPFSPluginSet implements PluginSet {
         // construct all plugins here
 
 
-
-
-
-        logger.info("IPFS connecting to .. "+ endpoint);
+        logger.info("IPFS connecting to .. " + endpoint);
         IPFS ipfs = new IPFS(endpoint);
         this.jettyWeb = new IPFSJettyPlugin(ipfs);
 
@@ -84,7 +78,8 @@ public class IPFSPluginSet implements PluginSet {
         return Collections.EMPTY_LIST;
     }
 
-    /** This method is used to retrieve a name for identifying the plugin set. Keep it as a constant value.
+    /**
+     * This method is used to retrieve a name for identifying the plugin set. Keep it as a constant value.
      *
      * @return a unique name for the plugin set
      */
@@ -100,7 +95,7 @@ public class IPFSPluginSet implements PluginSet {
 
     @Override
     public Collection<JettyPluginInterface> getJettyPlugins() {
-        return Collections.singleton((JettyPluginInterface) this.jettyWeb);
+        return Collections.singleton(this.jettyWeb);
     }
 
     @Override
@@ -109,7 +104,12 @@ public class IPFSPluginSet implements PluginSet {
 
     @Override
     public Collection<StorageInterface> getStoragePlugins() {
-        return Collections.singleton((StorageInterface) this.storage);
+        return Collections.singleton(this.storage);
+    }
+
+    @Override
+    public ConfigurationHolder getSettings() {
+        return this.settings;
     }
 
     @Override
@@ -127,11 +127,6 @@ public class IPFSPluginSet implements PluginSet {
         } catch (Exception ex) {
             logger.warn("Failed to configure plugin: required fields are missing!", ex);
         }
-    }
-
-    @Override
-    public ConfigurationHolder getSettings() {
-        return this.settings;
     }
 
 
