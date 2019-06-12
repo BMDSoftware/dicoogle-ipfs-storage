@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Dicoogle.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.bmdsoftware.pacs.dicoogle.ipfs;
+package com.bmdsoftware.pacs.dicoogle.ipfs.services;
 
 import io.ipfs.api.IPFS;
 import org.eclipse.jetty.http.HttpStatus;
@@ -39,13 +39,13 @@ import java.util.stream.Collectors;
  * @author Eriksson Monteiro - <eriksson.monteiro@bmd-software.com>
  * @author Rui Lebre - <ruilebre@ua.pt>
  */
-public class IPFSJettyWebService extends HttpServlet implements PlatformCommunicatorInterface {
-    private static final Logger logger = LoggerFactory.getLogger(IPFSJettyWebService.class);
+public class IPFSListWebService extends HttpServlet implements PlatformCommunicatorInterface {
+    private static final Logger logger = LoggerFactory.getLogger(IPFSListWebService.class);
 
     private DicooglePlatformInterface platform;
     private IPFS ipfs = null;
 
-    public IPFSJettyWebService(IPFS ipfs) {
+    public IPFSListWebService(IPFS ipfs) {
         this.ipfs = ipfs;
     }
 
@@ -61,11 +61,11 @@ public class IPFSJettyWebService extends HttpServlet implements PlatformCommunic
         response.setContentType("text/json;charset=utf-8");
         PrintWriter out = response.getWriter();
 
-        if (action.equals("status")) {
+        if (action.equalsIgnoreCase("fileCount")) {
             response.setStatus(HttpStatus.OK_200);
 
-            out.print("{\"action\":\"status\", \"host\":\"" + ipfs.host + "\",  \"status\":" + ipfs.stats.bw().toString() + "\"}");
-        } else if (action.equals("filelist")) {
+            out.print("{\"action\":\"fileCount\", \"host\":\"" + ipfs.host + "\",  \"fileCount\":" + ipfs.refs.local().size() + "\"}");
+        } else if (action.equalsIgnoreCase("filelist")) {
             response.setStatus(HttpStatus.OK_200);
             String localFileList = ipfs.refs.local().stream().map(Object::toString).collect(Collectors.joining("\", \"", "[\"", "\"]"));
 
