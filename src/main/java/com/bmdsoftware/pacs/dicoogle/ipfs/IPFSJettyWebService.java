@@ -19,6 +19,7 @@
 package com.bmdsoftware.pacs.dicoogle.ipfs;
 
 import io.ipfs.api.IPFS;
+import org.eclipse.jetty.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ua.dicoogle.sdk.core.DicooglePlatformInterface;
@@ -29,12 +30,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.stream.Collectors;
 
 /**
  * IPFS Jetty Plugin - Status
  *
  * @author Luís A. Bastião Silva - <bastiao@bmd-software.com>
  * @author Eriksson Monteiro - <eriksson.monteiro@bmd-software.com>
+ * @author Rui Lebre - <ruilebre@ua.pt>
  */
 public class IPFSJettyWebService extends HttpServlet implements PlatformCommunicatorInterface {
     private static final Logger logger = LoggerFactory.getLogger(IPFSJettyWebService.class);
@@ -47,26 +50,30 @@ public class IPFSJettyWebService extends HttpServlet implements PlatformCommunic
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse response)
-            throws IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse response) throws IOException {
 
         String action = req.getParameter("action");
         if (action == null) {
-            response.sendError(402, "No action provided");
+            response.sendError(HttpStatus.BAD_REQUEST_400, "No action provided");
             return;
         }
 
         response.setContentType("text/json;charset=utf-8");
         PrintWriter out = response.getWriter();
+
         if (action.equals("status")) {
-            response.setStatus(200);
+            response.setStatus(HttpStatus.OK_200);
+
             out.print("{\"action\":\"status\", \"host\":\"" + ipfs.host + "\",  \"status\":" + ipfs.stats.bw().toString() + "\"}");
+        } else if (action.equals("filelist")) {
+            response.setStatus(HttpStatus.OK_200);
+            String localFileList = ipfs.refs.local().stream().map(Object::toString).collect(Collectors.joining("\", \"", "[\"", "\"]"));
+
+            out.print("{\"action\":\"filelist\", \"host\":\"" + ipfs.host + "\",  \"file_list\":" + localFileList + "}");
         } else {
-            response.setStatus(200);
+            response.setStatus(HttpStatus.BAD_REQUEST_400);
             out.print("{\"action\":\"no action provided\"}");
         }
-
-
     }
 
     @Override
