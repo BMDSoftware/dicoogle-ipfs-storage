@@ -90,7 +90,7 @@ public class IPFSStore implements StorageInterface {
 
                         byte[] fileContents = new byte[0];
                         try {
-                            fileContents = ipfs.get(filePointer);
+                            fileContents = ipfs.cat(filePointer);
                         } catch (IOException e) {
                             logger.error("Failed to retrieve object", e);
                             return null;
