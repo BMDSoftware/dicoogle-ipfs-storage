@@ -18,35 +18,39 @@
  */
 package com.bmdsoftware.pacs.dicoogle.ipfs;
 
+import com.bmdsoftware.pacs.dicoogle.ipfs.services.IPFSListWebService;
+import com.bmdsoftware.pacs.dicoogle.ipfs.services.IPFSStatusWebService;
 import io.ipfs.api.IPFS;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import pt.ua.dicoogle.sdk.JettyPluginInterface;
 import pt.ua.dicoogle.sdk.core.DicooglePlatformInterface;
 import pt.ua.dicoogle.sdk.core.PlatformCommunicatorInterface;
 import pt.ua.dicoogle.sdk.settings.ConfigurationHolder;
 
-/** IPFS Jetty Servlet plugin.
+/**
+ * IPFS Jetty Servlet plugin.
  *
  * @author Luís A. Bastião Silva - <bastiao@bmd-software.com>
  * @author Eriksson Monteiro - <eriksson.monteiro@bmd-software.com>
  */
 public class IPFSJettyPlugin implements JettyPluginInterface, PlatformCommunicatorInterface {
     private static final Logger logger = LoggerFactory.getLogger(IPFSJettyPlugin.class);
-    
+
     private boolean enabled;
     private ConfigurationHolder settings;
     private DicooglePlatformInterface platform;
-    private final IPFSJettyWebService webService;
+    private final IPFSStatusWebService statusWebService;
+    private final IPFSListWebService listWebService;
     private IPFS ipfs;
-    
+
     public IPFSJettyPlugin(IPFS ipfs) {
         this.ipfs = ipfs;
-        this.webService = new IPFSJettyWebService(ipfs);
+        this.statusWebService = new IPFSStatusWebService(ipfs);
+        this.listWebService = new IPFSListWebService(ipfs);
         this.enabled = true;
     }
 
@@ -54,12 +58,12 @@ public class IPFSJettyPlugin implements JettyPluginInterface, PlatformCommunicat
     public void setPlatformProxy(DicooglePlatformInterface pi) {
         this.platform = pi;
         // since web service is not a plugin interface, the platform interface must be provided manually
-        this.webService.setPlatformProxy(pi);
+        this.statusWebService.setPlatformProxy(pi);
     }
 
     @Override
     public String getName() {
-        return "RSI";
+        return "IPFS";
     }
 
     @Override
@@ -96,10 +100,10 @@ public class IPFSJettyPlugin implements JettyPluginInterface, PlatformCommunicat
 
         ServletContextHandler handler = new ServletContextHandler();
         handler.setContextPath("/ipfs");
-        handler.addServlet(new ServletHolder(this.webService), "/status");
-        handler.addServlet(new ServletHolder(this.webService), "/list");
-        handler.addServlet(new ServletHolder(this.webService), "/chain");
-        handler.addServlet(new ServletHolder(this.webService), "/hash");
+        handler.addServlet(new ServletHolder(this.statusWebService), "/status");
+        handler.addServlet(new ServletHolder(this.listWebService), "/list");
+        handler.addServlet(new ServletHolder(this.statusWebService), "/chain");
+        handler.addServlet(new ServletHolder(this.statusWebService), "/hash");
         HandlerList l = new HandlerList();
         l.addHandler(handler);
 
