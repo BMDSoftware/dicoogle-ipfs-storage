@@ -1,7 +1,7 @@
 Dicoogle IPFS Storage Plugin 
 ========================
 
-This is a [Dicoogle](www.dicoogle.com) plugin to support the storage of files over [IPFS](https://ipfs.io/). 
+This is a [Dicoogle](https://www.dicoogle.com) plugin to support the storage of files over [IPFS](https://ipfs.io/). 
 
 Getting Started
 ---------------
