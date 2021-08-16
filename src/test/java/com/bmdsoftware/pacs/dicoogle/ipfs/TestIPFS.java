@@ -22,7 +22,8 @@ import io.ipfs.api.IPFS;
 import io.ipfs.api.MerkleNode;
 import io.ipfs.api.NamedStreamable;
 import io.ipfs.multihash.Multihash;
-import org.junit.*;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -31,6 +32,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+/**
+ * @author Rui Lebre - <ruilebre@ua.pt>
+ */
 public class TestIPFS {
     private static IPFS ipfs;
     private static String testFileContent = "test test test";
@@ -65,14 +72,14 @@ public class TestIPFS {
     public void testStats() throws IOException {
         Map stats = ipfs.stats.bw();
 
-        assert stats != null;
+        assertNotNull("Stats null.", stats);
     }
 
     @Test
     public void testListLocal() throws IOException {
         List localRefs = ipfs.refs.local();
 
-        assert localRefs != null;
-        assert localRefs.size() > 0;
+        assertNotNull("Local refs null.", localRefs);
+        assertTrue("Local refs must be at least one.", localRefs.size() > 0);
     }
 }
