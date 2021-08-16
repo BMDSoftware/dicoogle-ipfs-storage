@@ -60,18 +60,11 @@ public class IPFSStore implements StorageInterface {
 
     @Override
     public String getScheme() {
-        return "ipfs://";
-    }
-
-    @Override
-    public boolean handles(URI location) {
-        return location.toString().contains("ipfs://");
+        return "ipfs";
     }
 
     @Override
     public Iterable<StorageInputStream> at(final URI location, Object... objects) {
-
-
         Iterable<StorageInputStream> c = new Iterable<StorageInputStream>() {
 
             @Override
@@ -153,8 +146,11 @@ public class IPFSStore implements StorageInterface {
 
     @Override
     public void remove(URI uri) {
-        // TODO: not supported at IPFS. What should we do?
-        logger.error("Operation not supported for " + uri.toString());
+        try {
+            ipfs.pin.rm(Multihash.fromBase58(uri.toString().replaceFirst("ipfs://", "")));
+        } catch (IOException e) {
+            logger.error("Failed to remove pin", e);
+        }
     }
 
     @Override
