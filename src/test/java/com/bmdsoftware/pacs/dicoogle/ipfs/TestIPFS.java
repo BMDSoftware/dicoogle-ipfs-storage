@@ -22,68 +22,57 @@ import io.ipfs.api.IPFS;
 import io.ipfs.api.MerkleNode;
 import io.ipfs.api.NamedStreamable;
 import io.ipfs.multihash.Multihash;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.*;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public class TestIPFS {
+    private static IPFS ipfs;
+    private static String testFileContent = "test test test";
 
-
-
-    @Test
-    @Ignore // needs isolation
-    public void ipfs() throws IOException {
-
-
-        IPFS ipfs = new IPFS("/ip4/127.0.0.1/tcp/5001");
-        //IPFS ipfs = new IPFS("/ip4/104.236.179.241/tcp/4001");
-
-
-//        ipfs.refs.local();
-        ClassLoader classLoader = getClass().getClassLoader();
-        File fileTmp = new File(classLoader.getResource("hello.txt").getFile());
-        BufferedReader br = new BufferedReader(new FileReader(fileTmp));
-        try {
-            StringBuilder sb = new StringBuilder();
-            String line = br.readLine();
-
-            while (line != null) {
-                sb.append(line);
-                sb.append(System.lineSeparator());
-                line = br.readLine();
-            }
-            String everything = sb.toString();
-            System.out.println(everything);
-        } finally {
-            br.close();
-        }
-
-        NamedStreamable.FileWrapper file = new NamedStreamable.FileWrapper(fileTmp);
-        System.out.println("File name: " + file.getName().get());
-        MerkleNode addResult = ipfs.add(file).get(0);
-        System.out.println("File hash " +addResult.hash);
-        System.out.println("File size " +addResult.size.get());
-        System.out.println("File size " +addResult.toJSON());
-
-        //NamedStreamable.ByteArrayWrapper file2 = new NamedStreamable.ByteArrayWrapper("hello.txt", "G'day world! IPFS rocks!".getBytes());
-        //MerkleNode addResult2 = ipfs.add(file2).get(0);
-
-//        System.out.println(ipfs.stats.bw().size());
-
-        Multihash filePointer = Multihash.fromBase58(addResult.hash.toBase58());
-        //Multihash filePointer = Multihash.fromBase58("QmdWFrmDRZmAG8kMX5UG2RmEWpNbUkppeuiLcvNTBnU8df");
-        System.out.println(filePointer.type.length);
-
-
-
-
-        byte[] fileContents = ipfs.cat(filePointer);
-        System.out.println(new String(fileContents));
-        List<MerkleNode> addResult3 = ipfs.ls(filePointer);
-
-
+    @BeforeClass
+    public static void setup() {
+        ipfs = new IPFS("/ip4/127.0.0.1/tcp/5001");
     }
 
+    @Test
+    public void testFileOperations() throws IOException {
+        NamedStreamable.ByteArrayWrapper file = new NamedStreamable.ByteArrayWrapper(UUID.randomUUID().toString(), testFileContent.getBytes(StandardCharsets.UTF_8));
+
+        // Test add file
+        MerkleNode addResult = ipfs.add(file).get(0);
+        byte[] catResult = ipfs.cat(addResult.hash);
+
+        // Test file content
+        if (!Arrays.equals(catResult, file.getContents()))
+            throw new IllegalStateException("File content not equal.");
+
+        // Test file remove pin
+        List<Multihash> pinRm = ipfs.pin.rm(addResult.hash, true);
+        if (!pinRm.get(0).equals(addResult.hash))
+            throw new IllegalStateException("Pin removal failed.");
+
+        // Test garbage collector
+        ipfs.repo.gc();
+    }
+
+    @Test
+    public void testStats() throws IOException {
+        Map stats = ipfs.stats.bw();
+
+        assert stats != null;
+    }
+
+    @Test
+    public void testListLocal() throws IOException {
+        List localRefs = ipfs.refs.local();
+
+        assert localRefs != null;
+        assert localRefs.size() > 0;
+    }
 }
