@@ -54,15 +54,15 @@ public class TestIPFS {
         // Test add file
         MerkleNode addResult = ipfs.add(file).get(0);
         byte[] catResult = ipfs.cat(addResult.hash);
+        assertTrue("Add file failed.", catResult.length > 0);
+
 
         // Test file content
-        if (!Arrays.equals(catResult, file.getContents()))
-            throw new IllegalStateException("File content not equal.");
+        assertTrue("File content not equal.", Arrays.equals(catResult, file.getContents()));
 
         // Test file remove pin
         List<Multihash> pinRm = ipfs.pin.rm(addResult.hash, true);
-        if (!pinRm.get(0).equals(addResult.hash))
-            throw new IllegalStateException("Pin removal failed.");
+        assertTrue("Pin removal failed.", pinRm.get(0).equals(addResult.hash));
 
         // Test garbage collector
         ipfs.repo.gc();
