@@ -88,6 +88,10 @@ List Web service available at: ipfs/status?action=fileList
     URL: http://localhost:8082/ipfs/list?action=fileList
 
 
+### Test data
+
+This repository uses DICOM data for testing. The DICOM files listed under `src/test/resources` are made available by [NEMA](medical.nema.org) in ftp://medical.nema.org/medical/dicom/DataSets/WG02/RDSR/. 
+
 ### Troubleshooting 
 
 By default Dicoogle and IPFS Daemon open the 8080 tcp port, so one of application should change the port to avoid 
