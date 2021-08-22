@@ -1,7 +1,7 @@
 Dicoogle IPFS Storage Plugin 
 ========================
 
-This is a [Dicoogle](www.dicoogle.com) plugin to support the storage of files over [IPFS](https://ipfs.io/). 
+This is a [Dicoogle](https://www.dicoogle.com) plugin to support the storage of files over [IPFS](https://ipfs.io/). 
 
 Getting Started
 ---------------
@@ -69,12 +69,23 @@ You can configure the IPFS endpoint in the Plugin settings. Check here:
 </configuration>
 ```
 
-### Check the current status
+### Available services
+If Dicoogle is running on PORT 8082:
 
-
+#### Check the current status
 Status Web service available at: ipfs/status?action=status
     
     URL: http://localhost:8082/ipfs/status?action=status 
+
+#### Check the number of local files on IPFS
+List Web service available at: ipfs/status?action=fileCount
+    
+    URL: http://localhost:8082/ipfs/list?action=fileCount
+
+#### List of local files hashes on IPFS
+List Web service available at: ipfs/status?action=fileList
+    
+    URL: http://localhost:8082/ipfs/list?action=fileList
 
 
 ### Troubleshooting 
