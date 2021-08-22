@@ -61,7 +61,7 @@ public class IPFSPluginSet implements PluginSet {
             IPFS ipfs = new IPFS(endpoint);
         }
         catch(Exception e){
-            logger.error("IPFS is not ready to connect. Please, configure IPFS daemon.");
+            logger.error("IPFS is not ready to connect. Please, configure IPFS daemon.", e);
         }
         // Initialize other plugins and services
         this.jettyWeb = new IPFSJettyPlugin(ipfs);
