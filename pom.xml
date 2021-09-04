@@ -151,18 +151,11 @@
         </dependency>
 
         <!-- IPFS -->
-<!--        <dependency>
-            <groupId>com.github.ipfs</groupId>
-            <artifactId>java-ipfs-api_2.12</artifactId>
-            <version>v1.2.0</version>
-        </dependency>
--->
         <dependency>
-            <groupId>io.ipfs</groupId>
-            <artifactId>api</artifactId>
-            <version>v1.2.0</version>
+            <groupId>com.github.ipfs</groupId>
+            <artifactId>java-ipfs-http-client</artifactId>
+            <version>v1.3.3</version>
         </dependency>
-
 
         <dependency>
             <groupId>com.github.multiformats</groupId>
