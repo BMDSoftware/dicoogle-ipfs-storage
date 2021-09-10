@@ -49,21 +49,24 @@ public class IPFSPluginSet implements PluginSet {
     private final IPFSJettyPlugin jettyWeb;
     private final IPFSStore storage;
     private String endpoint = "/ip4/127.0.0.1/tcp/5001";
+    private IPFS ipfs;
     private ConfigurationHolder settings;
 
     public IPFSPluginSet() throws IOException {
         logger.info("Initializing IPFS Plugin Set");
 
         // construct all plugins here
-
-
         logger.info("IPFS connecting to .. " + endpoint);
-        IPFS ipfs = new IPFS(endpoint);
+        try{
+            IPFS ipfs = new IPFS(endpoint);
+        }
+        catch(Exception e){
+            logger.error("IPFS is not ready to connect. Please, configure IPFS daemon.", e);
+        }
+        // Initialize other plugins and services
         this.jettyWeb = new IPFSJettyPlugin(ipfs);
-
         this.storage = new IPFSStore(ipfs);
-
-        logger.info("IPFS Plugin Set is ready");
+        logger.info("IPFS Plugin Set was initialized.");
     }
 
 
