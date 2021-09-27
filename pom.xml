@@ -1,22 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.bmdsofware.dicoogle</groupId>
     <artifactId>ipfs-plugin</artifactId>
     <name>ipfs</name>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- Dicoogle SDK version here -->
-        <dicoogle.version>3.0.0-SNAPSHOT</dicoogle.version>
+        <dicoogle.version>3.0.0</dicoogle.version>
 
-        <!-- Jetty server version here -->        
+        <!-- Jetty server version here -->
         <jetty.version>9.0.3.v20130506</jetty.version>
+
+        <!-- Java IPFS HTTP client version here -->
+        <ipfs-client.version>v1.3.3</ipfs-client.version>
     </properties>
-    
+
     <build>
 
         <plugins>
@@ -74,30 +78,38 @@
             </plugin>
         </plugins>
     </build>
+
     <repositories>
         <repository>
             <id>maven-restlet</id>
             <name>Public online Restlet repository</name>
-            <url>http://maven.restlet.org</url>
+            <url>https://maven.restlet.org</url>
         </repository>
+
         <repository>
             <id>mavencentral</id>
-            <url>http://repo1.maven.org/maven2/</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>dcm4che</id>
-            <url>http://www.dcm4che.org/maven2/</url>
+            <url>https://repo1.maven.org/maven2/</url>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
         </repository>
 
         <repository>
+            <id>dcm4che</id>
+            <url>https://www.dcm4che.org/maven2/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+
+        <repository>
             <id>mi</id>
-            <url>http://bioinformatics.ua.pt/maven/content/repositories/mi</url>
+            <url>https://bioinformatics.ua.pt/maven/content/repositories/mi</url>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
@@ -105,23 +117,10 @@
 
         <repository>
             <id>mi-snapshots</id>
-            <url>http://bioinformatics.ua.pt/maven/content/repositories/mi-snapshots</url>
+            <url>https://bioinformatics.ua.pt/maven/content/repositories/mi-snapshots</url>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
-        </repository>
-
-        <!-- IPFS -->
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-
-
-        <repository>
-            <id>sourceforge-releases</id>
-            <name>Sourceforge Releases</name>
-            <url>https://oss.sonatype.org/content/repositories/sourceforge-releases</url>
         </repository>
     </repositories>
 
@@ -131,50 +130,23 @@
             <artifactId>org.restlet.ext.json</artifactId>
             <version>2.1.2</version>
         </dependency>
+
         <dependency>
             <groupId>pt.ua.ieeta</groupId>
             <artifactId>dicoogle-sdk</artifactId>
             <version>${dicoogle.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-webapp</artifactId>
             <version>${jetty.version}</version>
         </dependency>
 
-        <!-- IPFS -->
-<!--        <dependency>
+        <dependency>
             <groupId>com.github.ipfs</groupId>
-            <artifactId>java-ipfs-api_2.12</artifactId>
-            <version>v1.2.0</version>
-        </dependency>
--->
-        <dependency>
-            <groupId>io.ipfs</groupId>
-            <artifactId>api</artifactId>
-            <version>v1.2.0</version>
-        </dependency>
-
-
-        <dependency>
-            <groupId>com.github.multiformats</groupId>
-            <artifactId>java-multiaddr</artifactId>
-            <version>v1.1.1</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.multiformats</groupId>
-            <artifactId>java-multihash</artifactId>
-            <version>v1.2.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.multiformats</groupId>
-            <artifactId>java-multibase</artifactId>
-            <version>v1.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.ipld</groupId>
-            <artifactId>java-cid</artifactId>
-            <version>v1.1.0</version>
+            <artifactId>java-ipfs-http-client</artifactId>
+            <version>${ipfs-client.version}</version>
         </dependency>
 
         <dependency>
@@ -183,6 +155,5 @@
             <version>4.13.1</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
 </project>
